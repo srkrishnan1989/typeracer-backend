@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Socket } = require("dgram");
 const express= require("express")
 const http= require("http")
