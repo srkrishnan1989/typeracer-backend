@@ -1,4 +1,4 @@
-require("dotenv").config();
+// require("dotenv").config();
 const { Socket } = require("dgram");
 const express= require("express")
 const http= require("http")
@@ -19,7 +19,7 @@ var io=require("socket.io")(server);
 app.use(express.json());
 
 //connect to mongodb
-const DB=Database;
+const DB= process.env.Database;;
 
 //listening to socket io event from the client(flutter code)
 io.on('connection', (socket)=>{
