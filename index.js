@@ -2,10 +2,10 @@ const { Socket } = require("dgram");
 const express= require("express")
 const http= require("http")
 const mongoose= require("mongoose");
-const { setInterval } = require("timers/promises");
+// const { setInterval } = require("timers/promises");
 const getSentence = require("./api/getSentance");
 const Game= require("./models/Games")
-const { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer } = require('set-interval-async');
+// const { setIntervalAsync, clearIntervalAsync, SetIntervalAsyncTimer } = require('set-interval-async');
 //create server
 const app = express();
 
@@ -18,7 +18,7 @@ var io=require("socket.io")(server);
 app.use(express.json());
 
 //connect to mongodb
-const DB="mongodb+srv://siva:siva123q4@cluster0.p9wv71l.mongodb.net/?retryWrites=true&w=majority";
+const DB=Database;
 
 //listening to socket io event from the client(flutter code)
 io.on('connection', (socket)=>{
@@ -121,7 +121,7 @@ io.on('connection', (socket)=>{
     if (player.isPartyLeader) {
       
         // console.log(" WORking 23");
-      let timerId = setIntervalAsync( async () => {
+      let timerId =setInterval(async () => {
         // console.log(" WORking 24");
         if (countDown >= 0) {
           io.to(gameID).emit("timer", {
@@ -140,7 +140,7 @@ io.on('connection', (socket)=>{
         //    console.log(" WORking 24");
           startGameClock(gameID);
         //   console.log(" WORking 25");
-           clearIntervalAsync(timerId);
+        clearInterval(timerId);
         //    console.log(" WORking 26");
         //   console.log('game START!');
         
@@ -160,7 +160,7 @@ const startGameClock= async (gameID)=>{
     game = await game.save();
     let time=120;
 
-    let TimerId= setIntervalAsync(( function gameIntervalFunc(){ 
+    let TimerId= setInterval(( function gameIntervalFunc(){ 
         if(time>=0){
             const timeFormat=calculateTime(time);
             io.to(gameID).emit('timer',{
@@ -184,7 +184,7 @@ const startGameClock= async (gameID)=>{
                    
                     game= await game.save();
                     io.to(gameID).emit('updateGame', game);
-                    clearIntervalAsync(TimerId);
+                    clearInterval(TimerId);
                 } catch(e){
 
                 }
